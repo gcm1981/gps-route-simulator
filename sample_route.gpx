@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="GpsRouteSimulator">
+  <trk>
+    <name>San Donato Val di Comino - percorso di prova</name>
+    <trkseg>
+      <trkpt lat="41.747748" lon="13.838027"><time>2026-07-11T09:00:00Z</time></trkpt>
+      <trkpt lat="41.748600" lon="13.839400"><time>2026-07-11T09:00:20Z</time></trkpt>
+      <trkpt lat="41.749500" lon="13.840900"><time>2026-07-11T09:00:45Z</time></trkpt>
+      <trkpt lat="41.750600" lon="13.842300"><time>2026-07-11T09:01:15Z</time></trkpt>
+      <trkpt lat="41.751800" lon="13.843900"><time>2026-07-11T09:01:50Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
