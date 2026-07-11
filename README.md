@@ -67,6 +67,22 @@ Note tecniche:
 - La mappa è dentro una schermata scorrevole: puoi trascinarla per esplorarla, ma lo zoom con due dita e lo scroll verticale della schermata possono "litigare" un po' — è una semplificazione accettabile per uno strumento di test.
 - Il marker live si aggiorna una volta al secondo, in sincrono con gli aggiornamenti di posizione mock inviati al sistema.
 
+## La simulazione si ferma da sola dopo un po' (MIUI/Xiaomi)
+
+Su device Xiaomi/Redmi/POCO, MIUI ha una gestione della batteria molto più aggressiva
+dello standard Android e può terminare il servizio in background anche se è "in
+primo piano" con notifica attiva. Se noti che la simulazione si interrompe da sola:
+
+1. **Impostazioni → App → Gestisci app → GPS Route Simulator → Risparmio energetico** → **"Nessuna restrizione"**
+2. **Impostazioni → App → Gestisci app → GPS Route Simulator → Autostart** → attivo
+3. Nella lista delle **app recenti**, tieni premuto sull'anteprima dell'app e tocca l'icona del **lucchetto** per "bloccarla" (evita che MIUI la chiuda quando libera memoria)
+4. Se presente, controlla anche l'app **Sicurezza** di MIUI → Autorizzazioni → Risparmio energetico, ed escludi l'app dalle ottimizzazioni
+
+Il servizio include anche un **wake lock parziale** (mantiene attivo il processore
+durante la simulazione, con timeout di sicurezza di 6 ore) per ridurre le probabilità
+che il sistema lo sospenda in modalità Doze/standby — ma su MIUI le impostazioni sopra
+restano il fattore più importante.
+
 ## Percorso che segue le strade reali
 
 Con partenza e destinazione impostate, premi **"Genera percorso stradale"**:

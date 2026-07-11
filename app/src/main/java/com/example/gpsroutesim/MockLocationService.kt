@@ -9,6 +9,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.IBinder
+import android.os.PowerManager
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +29,7 @@ class MockLocationService : Service() {
 
     private var job: Job? = null
     private lateinit var locationManager: LocationManager
+    private var wakeLock: PowerManager.WakeLock? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -37,6 +39,7 @@ class MockLocationService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(NOTIFICATION_ID, buildNotification("Simulazione GPS in corso..."))
+        acquireWakeLock()
 
         try {
             setupTestProvider()
@@ -53,6 +56,18 @@ class MockLocationService : Service() {
         }
 
         return START_NOT_STICKY
+    }
+
+    private fun acquireWakeLock() {
+        if (wakeLock?.isHeld == true) return
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        wakeLock = powerManager.newWakeLock(
+            PowerManager.PARTIAL_WAKE_LOCK,
+            "GpsRouteSimulator:SimulationWakeLock"
+        ).apply {
+            setReferenceCounted(false)
+            acquire(6 * 60 * 60 * 1000L) // timeout di sicurezza: max 6 ore, poi si rilascia da solo
+        }
     }
 
     private fun setupTestProvider() {
@@ -154,6 +169,8 @@ class MockLocationService : Service() {
 
     override fun onDestroy() {
         job?.cancel()
+        wakeLock?.let { if (it.isHeld) it.release() }
+        wakeLock = null
         try {
             locationManager.removeTestProvider(PROVIDER)
         } catch (e: Exception) {
