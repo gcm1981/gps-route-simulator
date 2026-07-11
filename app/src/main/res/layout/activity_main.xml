@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="24dp"
+            android:paddingTop="16dp"
             android:text="Punto di partenza:" />
 
         <Button
@@ -46,6 +46,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Usa posizione attuale come partenza" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:text="...oppure cerca per indirizzo:" />
+
+        <EditText
+            android:id="@+id/etStartAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Es. Via Roma 1, Milano" />
+
+        <Button
+            android:id="@+id/btnSearchStartAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerca indirizzo partenza" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:text="...oppure inserisci direttamente lat/lon:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etStartLat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Latitudine"
+                android:inputType="numberDecimal|numberSigned" />
+
+            <EditText
+                android:id="@+id/etStartLon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Longitudine"
+                android:inputType="numberDecimal|numberSigned" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSetStartFromLatLon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Imposta partenza (da lat/lon)" />
 
         <TextView
             android:id="@+id/tvStartInfo"

@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etDestLat: EditText
     private lateinit var etDestLon: EditText
     private lateinit var etDestAddress: EditText
+    private lateinit var etStartLat: EditText
+    private lateinit var etStartLon: EditText
+    private lateinit var etStartAddress: EditText
 
     private var gpxPoints: List<RoutePoint> = emptyList()
     private var startOverride: RoutePoint? = null
@@ -92,6 +95,9 @@ class MainActivity : AppCompatActivity() {
         etDestLat = findViewById(R.id.etDestLat)
         etDestLon = findViewById(R.id.etDestLon)
         etDestAddress = findViewById(R.id.etDestAddress)
+        etStartLat = findViewById(R.id.etStartLat)
+        etStartLon = findViewById(R.id.etStartLon)
+        etStartAddress = findViewById(R.id.etStartAddress)
 
         findViewById<Button>(R.id.btnPickFile).setOnClickListener {
             pickGpxLauncher.launch("*/*")
@@ -99,6 +105,14 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnUseCurrentLocation).setOnClickListener {
             useCurrentLocationAsStart()
+        }
+
+        findViewById<Button>(R.id.btnSearchStartAddress).setOnClickListener {
+            searchStartAddress()
+        }
+
+        findViewById<Button>(R.id.btnSetStartFromLatLon).setOnClickListener {
+            setStartFromFields()
         }
 
         findViewById<Button>(R.id.btnSetDestination).setOnClickListener {
@@ -260,6 +274,48 @@ class MainActivity : AppCompatActivity() {
         roadRoutePoints = emptyList()
         tvStartInfo.text = "Partenza: %.6f, %.6f".format(best.latitude, best.longitude)
         refreshMapRoute()
+    }
+
+    private fun setStartFromFields() {
+        val lat = etStartLat.text.toString().toDoubleOrNull()
+        val lon = etStartLon.text.toString().toDoubleOrNull()
+        if (lat == null || lon == null) {
+            Toast.makeText(this, "Inserisci coordinate di partenza valide", Toast.LENGTH_SHORT).show()
+            return
+        }
+        startOverride = RoutePoint(lat, lon)
+        roadRoutePoints = emptyList()
+        tvStartInfo.text = "Partenza: %.6f, %.6f".format(lat, lon)
+        refreshMapRoute()
+    }
+
+    /**
+     * Cerca l'indirizzo scritto in etStartAddress tramite Nominatim (OpenStreetMap)
+     * e, se trovato, lo imposta come partenza.
+     */
+    private fun searchStartAddress() {
+        val address = etStartAddress.text.toString().trim()
+        if (address.isEmpty()) {
+            Toast.makeText(this, "Scrivi un indirizzo da cercare", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        tvStartInfo.text = "Ricerca indirizzo in corso..."
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                NominatimClient.geocode(address)
+            }
+            if (result == null) {
+                tvStartInfo.text = "Indirizzo non trovato, prova a essere più specifico"
+            } else {
+                startOverride = result
+                roadRoutePoints = emptyList()
+                etStartLat.setText("%.6f".format(result.lat))
+                etStartLon.setText("%.6f".format(result.lon))
+                tvStartInfo.text = "Partenza: %.6f, %.6f (da \"$address\")".format(result.lat, result.lon)
+                refreshMapRoute()
+            }
+        }
     }
 
     private fun setDestinationFromFields() {

@@ -41,8 +41,13 @@ coordinate tramite **Nominatim** (il servizio di geocoding gratuito di OpenStree
 nessuna chiave API richiesta) e lo imposta automaticamente come destinazione — i campi
 lat/lon si aggiornano di conseguenza, così sai sempre le coordinate esatte trovate.
 
-I campi lat/lon manuali restano disponibili come alternativa, per chi preferisce
-inserire coordinate precise direttamente.
+**Anche la partenza** ha le stesse tre opzioni, intercambiabili:
+- **"Usa posizione attuale come partenza"** (GPS reale del device)
+- **Cerca per indirizzo** (stesso meccanismo della destinazione)
+- **Coordinate lat/lon manuali**
+
+Qualunque opzione usi per ultima (per partenza e per destinazione, indipendentemente)
+è quella che verrà usata quando avvii la simulazione o generi il percorso stradale.
 
 Note:
 - Serve connessione internet.
