@@ -33,6 +33,35 @@ L'uso di posizioni mock richiede che l'app sia autorizzata esplicitamente:
 Senza questo passaggio, `setTestProviderLocation` lancia una `SecurityException`
 e il servizio si ferma automaticamente (comportamento gestito nel codice).
 
+## Cerca destinazione per indirizzo
+
+Nella sezione destinazione ora puoi scrivere direttamente un **indirizzo testuale**
+(es. "Via Roma 1, Milano") e premere **"Cerca indirizzo"**: l'app lo converte in
+coordinate tramite **Nominatim** (il servizio di geocoding gratuito di OpenStreetMap,
+nessuna chiave API richiesta) e lo imposta automaticamente come destinazione — i campi
+lat/lon si aggiornano di conseguenza, così sai sempre le coordinate esatte trovate.
+
+I campi lat/lon manuali restano disponibili come alternativa, per chi preferisce
+inserire coordinate precise direttamente.
+
+Note:
+- Serve connessione internet.
+- Se l'indirizzo non viene trovato, prova a essere più specifico (via, città, eventualmente provincia/paese).
+- Nominatim ha un limite d'uso di 1 richiesta al secondo per questo tipo di utilizzo leggero — va benissimo per test, ma non è pensato per un uso intensivo o in produzione.
+
+## Mappa integrata nell'app
+
+In alto nella schermata principale c'è una **mappa OpenStreetMap** (gratuita, nessuna chiave API richiesta) che mostra:
+
+- il **tracciato** del percorso corrente (linea viola), aggiornato automaticamente ogni volta che carichi un GPX, imposti partenza/destinazione, o generi un percorso stradale
+- un marker per la **partenza** e uno per la **destinazione**
+- un marker **"live"** che si muove in tempo reale lungo il percorso mentre la simulazione è attiva, così puoi vedere il movimento direttamente nell'app, senza dover aprire Google Maps
+
+Note tecniche:
+- Le tile della mappa vengono scaricate da OpenStreetMap: serve connessione internet la prima volta che visualizzi un'area (poi restano in cache locale sul device).
+- La mappa è dentro una schermata scorrevole: puoi trascinarla per esplorarla, ma lo zoom con due dita e lo scroll verticale della schermata possono "litigare" un po' — è una semplificazione accettabile per uno strumento di test.
+- Il marker live si aggiorna una volta al secondo, in sincrono con gli aggiornamenti di posizione mock inviati al sistema.
+
 ## Percorso che segue le strade reali
 
 Con partenza e destinazione impostate, premi **"Genera percorso stradale"**:

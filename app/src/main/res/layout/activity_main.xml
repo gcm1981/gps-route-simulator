@@ -1,134 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <TextView
-        android:id="@+id/tvFileName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nessun file GPX selezionato"
-        android:textSize="16sp"
-        android:paddingBottom="12dp" />
-
-    <Button
-        android:id="@+id/btnPickFile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleziona file GPX" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="24dp"
-        android:text="Punto di partenza:" />
-
-    <Button
-        android:id="@+id/btnUseCurrentLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Usa posizione attuale come partenza" />
-
-    <TextView
-        android:id="@+id/tvStartInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="13sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:text="Punto di destinazione (lat, lon):" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="Mappa percorso (tocca e trascina per muoverla):" />
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="280dp" />
+
+        <TextView
+            android:id="@+id/tvFileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="Nessun file GPX selezionato"
+            android:textSize="16sp"
+            android:paddingBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnPickFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleziona file GPX" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="24dp"
+            android:text="Punto di partenza:" />
+
+        <Button
+            android:id="@+id/btnUseCurrentLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usa posizione attuale come partenza" />
+
+        <TextView
+            android:id="@+id/tvStartInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="Punto di destinazione — cerca per indirizzo:" />
 
         <EditText
-            android:id="@+id/etDestLat"
-            android:layout_width="0dp"
+            android:id="@+id/etDestAddress"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Latitudine"
-            android:inputType="numberDecimal|numberSigned" />
+            android:hint="Es. Via Roma 1, Milano" />
+
+        <Button
+            android:id="@+id/btnSearchAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerca indirizzo" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="...oppure inserisci direttamente lat/lon:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etDestLat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Latitudine"
+                android:inputType="numberDecimal|numberSigned" />
+
+            <EditText
+                android:id="@+id/etDestLon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Longitudine"
+                android:inputType="numberDecimal|numberSigned" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSetDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Imposta destinazione (da lat/lon)" />
+
+        <TextView
+            android:id="@+id/tvDestInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btnGenerateRoadRoute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Genera percorso stradale (partenza → destinazione)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="24dp"
+            android:text="Velocità simulata (km/h), usata se il GPX non ha timestamp:" />
 
         <EditText
-            android:id="@+id/etDestLon"
-            android:layout_width="0dp"
+            android:id="@+id/etSpeed"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Longitudine"
-            android:inputType="numberDecimal|numberSigned" />
+            android:inputType="numberDecimal"
+            android:text="30" />
+
+        <CheckBox
+            android:id="@+id/cbUseGpxTiming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usa i timestamp originali del GPX (se presenti)"
+            android:checked="true" />
+
+        <CheckBox
+            android:id="@+id/cbLoop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ripeti il percorso in loop" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Avvia simulazione" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ferma simulazione" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textStyle="italic" />
+
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnSetDestination"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Imposta destinazione" />
-
-    <TextView
-        android:id="@+id/tvDestInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="13sp" />
-
-    <Button
-        android:id="@+id/btnGenerateRoadRoute"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Genera percorso stradale (partenza → destinazione)" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="24dp"
-        android:text="Velocità simulata (km/h), usata se il GPX non ha timestamp:" />
-
-    <EditText
-        android:id="@+id/etSpeed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:text="30" />
-
-    <CheckBox
-        android:id="@+id/cbUseGpxTiming"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Usa i timestamp originali del GPX (se presenti)"
-        android:checked="true" />
-
-    <CheckBox
-        android:id="@+id/cbLoop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ripeti il percorso in loop" />
-
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Avvia simulazione" />
-
-    <Button
-        android:id="@+id/btnStop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Ferma simulazione" />
-
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:textStyle="italic" />
-
-</LinearLayout>
+</ScrollView>

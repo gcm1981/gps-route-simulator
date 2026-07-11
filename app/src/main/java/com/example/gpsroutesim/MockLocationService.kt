@@ -126,6 +126,7 @@ class MockLocationService : Service() {
         }
         try {
             locationManager.setTestProviderLocation(PROVIDER, location)
+            SimulationTracker.listener?.invoke(lat, lon, bearing)
         } catch (e: SecurityException) {
             // permesso mock revocato durante l'esecuzione: ferma il servizio
             stopSelf()
